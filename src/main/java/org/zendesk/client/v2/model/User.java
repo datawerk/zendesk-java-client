@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * @author stephenc
@@ -23,6 +25,7 @@ public class User {
     private Boolean verified;
     private Boolean shared;
     private Integer localeId;
+    private String locale;
     private String timeZone;
     private Date lastLoginAt;
     private String email;
@@ -41,6 +44,8 @@ public class User {
     private Attachment photo;
     private List<Identity> identities;
     private String remotePhotoUrl;
+    private Map<String,String> userFields = new TreeMap<String,String>();
+    
 
     public User() {
     }
@@ -86,7 +91,16 @@ public class User {
         this.identities = identities;
     }
 
-    public Boolean getActive() {
+    @JsonProperty("user_fields")
+    public Map<String, String> getUserFields() {
+		return userFields;
+	}
+
+	public void setUserFields(Map<String, String> userFields) {
+		this.userFields = userFields;
+	}
+
+	public Boolean getActive() {
         return active;
     }
 
@@ -162,7 +176,15 @@ public class User {
         this.lastLoginAt = lastLoginAt;
     }
 
-    @JsonProperty("locale_id")
+    public String getLocale() {
+		return locale;
+	}
+
+	public void setLocale(String locale) {
+		this.locale = locale;
+	}
+
+	@JsonProperty("locale_id")
     public Integer getLocaleId() {
         return localeId;
     }
