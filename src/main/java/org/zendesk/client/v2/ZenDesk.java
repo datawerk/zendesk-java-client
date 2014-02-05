@@ -740,7 +740,7 @@ public class ZenDesk implements Closeable {
             public T onCompleted(Response response) throws Exception {
                 logResponse(response);
                 if (isStatus2xx(response)) {
-                    return (T) mapper.reader(clazz).readValue(response.getResponseBodyAsBytes());
+                	return (T) mapper.reader(clazz).readValue(response.getResponseBodyAsStream());
                 }
                 if (response.getStatusCode() == 404) {
                     return null;
@@ -756,7 +756,7 @@ public class ZenDesk implements Closeable {
             public T onCompleted(Response response) throws Exception {
                 logResponse(response);
                 if (isStatus2xx(response)) {
-                    return mapper.convertValue(mapper.readTree(response.getResponseBodyAsBytes()).get(name), clazz);
+                    return mapper.convertValue(mapper.readTree(response.getResponseBodyAsStream()).get(name), clazz);
                 }
                 if (response.getStatusCode() == 404) {
                     return null;
@@ -773,7 +773,7 @@ public class ZenDesk implements Closeable {
                 logResponse(response);
                 if (isStatus2xx(response)) {
                     List<T> values = new ArrayList<T>();
-                    for (JsonNode node : mapper.readTree(response.getResponseBodyAsBytes())) {
+                    for (JsonNode node : mapper.readTree(response.getResponseBodyAsStream())) {
                         values.add(mapper.convertValue(node, clazz));
                     }
                     return values;
@@ -790,7 +790,7 @@ public class ZenDesk implements Closeable {
                 logResponse(response);
                 if (isStatus2xx(response)) {
                     List<T> values = new ArrayList<T>();
-                    for (JsonNode node : mapper.readTree(response.getResponseBodyAsBytes()).get(name)) {
+                    for (JsonNode node : mapper.readTree(response.getResponseBodyAsStream()).get(name)) {
                         values.add(mapper.convertValue(node, clazz));
                     }
                     return values;
